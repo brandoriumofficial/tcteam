@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Cantora+One&family=Exile&family=Gulzar&family=Hahmlet:wght@100..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Londrina+Sketch&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Tagesschrift&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+body{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+   font-family: "Ubuntu", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  scroll-behavior: smooth;
+  overflow-x: hidden
+}
+.sildbar{
+  width: 100%;
+  max-width: 600px;
+  position: absolute;
+  top: 10rem;
+  left: 20px;
+  z-index: 45;
+  padding-top: 20px;
+}
+.sildbar h1{
+  font-size: 4rem;
+  color: black;
+}
+.sildbar p{
+  font-size: 1rem;
+  color: black;
+  margin-top: 10px;
+  max-width: 400px;
+}
+.sildbar button{
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  /* background-color: #16a34a; */
+  color: #16a34a;
+  border: 1px solid #16a34a;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.sildbar button:hover{
+  background-color: #16a34a;
+  color: white;
+  transition: 0.3s;
+}
+@media (max-width: 1000px) {
+  .sildbar {
+   position:static !important
+  }
+}
+.left{
+  margin-top: 4rem;
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+.fillter_btn{
+  color: rgb(86, 201, 86);
+  background-color: transparent;
+  padding: 7px 50px;
+  display: flex;
+  border: 1px solid rgb(86, 201, 86);
+}
+.fillter_btn svg{
+  margin-right: 10px;
+  margin-top: 5px;
+}
+.fillter_btn:hover{
+  background-color: rgb(86, 201, 86);
+  color: white;
+  transition: 0.3s;
+}.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(220, 38, 38, 0.7), 0 0 10px rgba(220, 38, 38, 0.6);
+    /* transform: scale(1); */
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(220, 38, 38, 1), 0 0 25px rgba(220, 38, 38, 0.8);
+    /* transform: scale(1.2); */
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(220, 38, 38, 0.7), 0 0 10px rgba(220, 38, 38, 0.6);
+    /* transform: scale(1); */
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}
+.slider-container {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 20px;
+  height: 300px; /* Fixed height for all images */
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  width: max-content;
+}
+
+.slider-item {
+  min-width: 300px; /* Width of each image */
+  margin-right: 1rem; /* Gap between images */
+}
+
+.slider-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.slider-img:hover {
+  transform: scale(1.05);
+}
+.page_error {
+  padding: 40px 0;
+  background: #fff;
+  font-family: "Arvo", serif;
+  color: #131522;
+  text-align: center;
+  margin-top: 50px;
+  font-size: 0.9rem;
+}
+.page_error_animation {
+  background-image: url("https://olweb.com.br/media/shared-images/not-found.gif");
+  height: 400px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.page_error_animation h1 {
+  font-size: 5rem;
+}
+.page_error .button {
+  color: #fff !important;
+  padding: 10px 20px;
+  background: #131522;
+  margin: 20px 0;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: 0.4s;
+}
+.page_error .button:hover {
+  background: #5A77FF;
+}
+.page_error h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+.page_error #footer-logo {
+  width: 150px;
+  margin: 50px 0;
+  opacity: 0.5;
+}
+.cenetr {
+  text-align: center;
+}
+
+.cenetr h1 {
+  font-size: 3vw;
+  padding: 3vw 0px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 
+               'Lucida Grande', 'Lucida Sans Unicode', 
+               Geneva, Verdana, sans-serif;
+}
+
+.category-grid {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover {
+  transform: translateY(-8px); /* hover effect */
+}
+
+.category-img {
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+  object-fit: cover;
+  border-radius: 50%; /* circle */
+  background: #e5e5e5;
+  
+  transition: transform 0.3s ease;
+}
+
+.category-item:hover .category-img {
+  transform: scale(1.1); /* zoom on hover */
+}
+
+.category-label {
+  margin-top: 12px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,228 @@
+.shipped-container {
+  padding: 16px;
+}
+
+.add-ship-btn {
+  background: #1c7ed6;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.ship-search {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  margin-bottom: 14px;
+}
+
+/* ADD FORM */
+.ship-add-form {
+  background: #f8f9fa;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.ship-add-form input,
+.ship-add-form select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+}
+
+/* GRID */
+.shipped-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* CARD */
+.shipped-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  font-size: 14px;
+}
+
+.ship-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ship-status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ship-status.InTransit {
+  background: #e7f5ff;
+  color: #1971c2;
+}
+
+.ship-status.Delivered {
+  background: #ebfbee;
+  color: #2f9e44;
+}
+
+.ship-status.Returned {
+  background: #fff5f5;
+  color: #c92a2a;
+}
+
+/* ACTIONS */
+.ship-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ship-actions button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 20px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ship-actions .delivered {
+  background: #2f9e44;
+  color: white;
+}
+
+.ship-actions .return {
+  background: #1c7ed6;
+  color: white;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .shipped-card {
+    font-size: 13px;
+  }
+}
+.date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.date-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.date-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.date-group label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.date-input-wrapper {
+  position: relative;          /* 👈 VERY IMPORTANT */
+  padding: 10px 38px 10px 12px; /* 👈 right space for icon */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  background: #fff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* TEXT */
+.date-text {
+  font-size: 14px;
+  color: #495057;
+}
+
+/* 🔥 ICON — FORCE RIGHT INSIDE BORDER */
+.calendar-icon {
+  position: absolute;   /* 👈 KEY */
+  right: 12px;          /* 👈 border ke andar */
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #1c7ed6;
+  cursor: pointer;
+}
+
+.calendar-popup {
+  position: absolute;
+  top: 72px;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+/* BUTTONS SIZE FIX */
+.ship-actions {
+  display: flex;
+  justify-content: flex-end; /* ya flex-start */
+  gap: 8px;
+  margin-top: 35px;         /* 👈 forces buttons below date rows */
+}
+
+
+.ship-actions button {
+  height: 38px;
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.delete-btn {
+  background: #e03131;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #c92a2a;
+}
+/* EDIT MODE BUTTONS – SAME ROW */
+.edit-section .ship-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Cancel – normal */
+.edit-section .ship-actions .return {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  width: auto;
+  flex: 0 0 auto;
+}
+
+/* Save – a little wider */
+.edit-section .ship-actions .delivered {
+  padding: 6px 22px;      /* 👈 wider than cancel */
+  border-radius: 999px;
+  font-size: 13px;
+  width: auto;
+  flex: 0 0 auto;
+}

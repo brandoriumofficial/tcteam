@@ -1,0 +1,311 @@
+.tc-hero {
+  width: 100%;
+  min-height: 520px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* dark overlay on image */
+.tc-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* content */
+.tc-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  padding: 0 20px;
+  text-align: center;
+  color: greenyellow;
+}
+
+.tc-hero-content h1 {
+  font-size: 64px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.tc-hero-content h2 {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 25px;
+}
+
+.tc-hero-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 900px;
+  margin: 0 auto 40px auto;
+}
+
+/* button */
+.tc-hero-content button {
+  background: #014c3c;
+  color: white;
+  padding: 14px 50px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.tc-hero-content button:hover {
+  background: #02362b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .tc-hero-content h1 {
+    font-size: 48px;
+  }
+
+  .tc-hero-content h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tc-hero {
+    min-height: 420px;
+  }
+
+  .tc-hero-content h1 {
+    font-size: 36px;
+  }
+
+  .tc-hero-content h2 {
+    font-size: 18px;
+  }
+
+  .tc-hero-content p {
+    font-size: 14px;
+  }
+
+  .tc-hero-content button {
+    padding: 12px 36px;
+    font-size: 14px;
+  }
+}
+
+/* SUPER SAFE SECTION */
+/* SUPER SAFE SECTION */
+.tc-safe {
+  background: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.tc-safe h2 {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #0d2340;
+}
+
+/* Grid */
+.tc-safe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1100px;
+  margin: auto;
+  gap: 30px;
+}
+
+/* Card */
+.tc-safe-card {
+  background: #fdf6e4;
+  padding: 35px 25px;
+  border-radius: 20px;
+  transition: 0.3s ease;
+}
+
+.tc-safe-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+/* Icon */
+.tc-icon {
+  width: 65px;
+  height: 65px;
+  background: #c6a23d;
+  color: white;
+  font-size: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+/* Text */
+.tc-safe-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #0d2340;
+}
+
+.tc-safe-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .tc-safe-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .tc-safe h2 {
+    font-size: 26px;
+  }
+
+  .tc-safe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tc-safe-card {
+    padding: 28px 20px;
+  }
+
+  .tc-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* 🔐 FIXED SAME HEIGHT FOR ALL CARDS */
+  .mobile-safe-card {
+    min-height: 240px;   /* locked height */
+    max-height: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ✂️ TEXT CLAMP = same height text */
+  .mobile-safe-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;   /* max 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  /* reduce mobile padding */
+  .tc-safe {
+    padding: 16px 12px;
+  }
+
+}
+
+
+
+
+
+/* ================= AWESOME OUTCOMES ================= */
+
+.tc-outcomes {
+  background:  #fdf6e4;
+  padding: 80px 20px;
+  overflow: hidden;
+}
+
+.tc-outcomes-title {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 60px;
+  color: #222;
+}
+
+/* Slider container */
+.tc-outcomes-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Moving track */
+.tc-outcomes-track {
+  display: flex;
+  width: max-content;
+  animation: tc-outcomes-scroll 30s linear infinite;
+}
+
+/* Each testimonial */
+.tc-outcome-card {
+  min-width: 340px;
+  max-width: 340px;
+  margin: 0 40px;
+  text-align: center;
+}
+
+.tc-stars {
+  color: #222;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.tc-outcome-card h4 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.tc-outcome-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.tc-outcome-card span {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* Auto sliding animation */
+@keyframes tc-outcomes-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .tc-outcomes-title {
+    font-size: 30px;
+  }
+
+  .tc-outcome-card {
+    min-width: 280px;
+    max-width: 280px;
+    margin: 0 20px;
+  }
+
+  .tc-outcome-card p {
+    font-size: 14px;
+  }
+}
