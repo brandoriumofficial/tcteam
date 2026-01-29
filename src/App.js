@@ -10,40 +10,45 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "./App.css";
-
-import Navbar from "./components/Header";
-import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import ProductList from "./pages/ProductList";
-import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import NotFound from "./pages/NotFound";
+import HairCare from "./pages/user/HairCarePage.jsx";
+import Facewash from "./pages/user/FaceWash.jsx";
+import Cart from "././components/Homeuser/card/Cart.js";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-before-after-slider-component/dist/build.css';
 import { useState } from "react";
-import CartSidebar from "./components/CartSidebar";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-// import Coupons from "./pages/Coupons";
 import AdminOrder from "./components/Admin/Order/AdminOrder"; 
 import AdminLayout from "./components/Admin/AdminLayout";
 import AllProducts from "./components/Admin/Catalog/AllProducts";
-import AddProduct from "./components/Admin/Catalog/AddProduct";
+import AddProduct from "./pages/Admin/AddProduct";
 import Categories from "./components/Admin/Catalog/Categories";
-import AddCategory from "./components/Admin/Catalog/AddCategory";
-import AdminCoupon from "./components/Admin/Catalog/AdminCoupon";
+import AddCategory from "./pages/Admin/AddCategory";
+import AdminCoupon from "./pages/Admin/AdminCoupon";
 import AdminReview from "./components/Admin/Catalog/AdminReview";
-import AdminInventory from "./components/Admin/Catalog/AdminInventory";
-import AdminPayment from "./components/Admin/Catalog/AdminPayment";
+import AdminInventory from "./pages/Admin/AdminInventory";
+import AdminPayment from "./pages/Admin/AdminPayment";
 import AdminShipped from "./components/Admin/Catalog/AdminShipped";
-import AdminReferral from "./components/Admin/Catalog/AdminReferral";
+import AdminReferral from "./pages/Admin/AdminReferral";
 import AdminBanner from "./components/Admin/AdminBanner";
 import AdminReports from "./components/Admin/AdminReports";
 import AdminOffers from "./components/Admin/AdminOffers";
-import AdminSEO from "./pages/AdminSEO";
+import AdminPageBuilder from "./components/Admin/AdminPageBuilder";
+import AdminContact from "./components/Admin/AdminContact";
+import OrderList from "./components/Admin/Order/OrderList";
+import Home from "./pages/user/Home";
+import ProductList from "./pages/user/ProductList";
+import ProductDetails from "./pages/user/ProductDetails";
+import Login from "./pages/user/Login";
+import About from "./pages/user/About";
+import Register from "./pages/user/Register";
+import NotFound from "./pages/user/NotFound";
+import Contact from "./pages/user/Contact";
+import ComboOffers from "./pages/user/ComboOffer";
+import AllProduect from "./pages/user/AllProduect.jsx";
+import CartSidebar from "./components/Homeuser/card/CartSidebar.js";
+import Footer from "./components/Homeuser/Footer.js";
+import Header from "./components/Homeuser/Header.js";
+import AdminSEO from "./pages/Admin/AdminSEO.jsx";
 
 function App() {
   const [cart, setCart] = useState([]); // Cart state
@@ -82,13 +87,13 @@ function App() {
 
   return (
     <Router>
-      <Navbar cartCount={cart.length} onCartClick={() => setIsCartOpen(true)} />
+      <Header cartCount={cart.length} onCartClick={() => setIsCartOpen(true)} />
 
       <Routes>
         <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
         <Route
           path="/products"
-          element={<ProductList onAddToCart={handleAddToCart} />}
+          element={<AllProduect/>}
         />
         <Route
           path="/product/:id"
@@ -103,12 +108,14 @@ function App() {
           element={<AdminDashboard />}
         />
 
-  {/* <Route path="/admin/orders" element={<AdminOrder />} /> */}
 
   <Route path="/admin" element={<AdminLayout />}>
    {/* <Route index element={<AdminDashboard />} /> */}
+  <Route path="/admin/orders" element={<AdminOrder />} />
+  <Route path="/admin/orders/list" element={<OrderList />} />
+
    <Route path="orders" element={<AdminOrder />} />
-   <Route path="products" element={<AllProducts />} />
+   <Route path="products" element={<AddProduct />} />
    <Route path="addproduct" element={<AddProduct />} />
    <Route path="categories" element={<Categories />} />
    <Route path="addcategory" element={<AddCategory />} />
@@ -122,6 +129,8 @@ function App() {
    <Route path="reports" element={<AdminReports />} />
    <Route path="seo" element={<AdminSEO />} />
    <Route path="offer" element={<AdminOffers />} />
+   <Route path="pagebuilder" element={<AdminPageBuilder />} />
+   <Route path="conact" element={<AdminContact />} />
 </Route>
 
 
@@ -129,7 +138,9 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
-        
+        <Route path="/products/combo" element={<ComboOffers />} />
+        <Route path="/products/haircare" element={<HairCare />} />
+        <Route path="/products/facewash" element={<Facewash />} />
         <Route path="*" element={<NotFound />} />
         
         

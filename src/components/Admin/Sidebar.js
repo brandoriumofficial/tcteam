@@ -123,8 +123,24 @@ export default function Sidebar({ isOpen, setIsOpen }) {
              <span className="absolute -top-3 left-3 bg-white px-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Operations</span>
           </div>
 
+          <Link to="/admin/pagebuilder" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/pagebuilder") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+            <MdInventory className="text-lg" /> <span>Page Builder</span>
+          </Link>
+
+          <Link to="/admin/conact" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/conact") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+            <MdInventory className="text-lg" /> <span>conact</span>
+          </Link>
+            <Link to="/admin/orders" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/orders") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+            <MdInventory className="text-lg" /> <span>orders</span>
+          </Link>
+             <Link to="/admin/orders/list" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/orders/list") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+            <MdInventory className="text-lg" /> <span>orders list</span>
+          </Link>
           <Link to="/admin/inventory" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/inventory") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
             <MdInventory className="text-lg" /> <span>Inventory Stock</span>
+          </Link>
+             <Link to="/admin/brand" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/brand") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+            <MdInventory className="text-lg" /> <span>Brand</span>
           </Link>
 
           <Link to="/admin/shipped" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/shipped") ? "bg-cyan-50 text-cyan-700" : "text-gray-600 hover:bg-gray-50"}`}>

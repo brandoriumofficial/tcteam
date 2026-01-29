@@ -1,356 +1,300 @@
 import React, { useState } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import "../../../css/AdminOrder.css";
+import { 
+  FaUser, FaBoxOpen, FaTrash, FaPlus, FaSave, FaMoneyBillWave, 
+  FaCreditCard, FaGooglePay, FaUniversity, FaMapMarkerAlt 
+} from "react-icons/fa";
 
-const dummyOrders = [
-  {
-    id: "ORD101",
-    name: "Rahul Sharma",
-    phone: "9876543210",
-    email: "rahul@example.com",
-    address: "Delhi, India",
-    amount: 1499,
-    discount: null,
-    couponApplied: false,
-    couponCode: null,
-    payment: "Razorpay",
-    date: "2026-01-10",
-    status: "Processing",
-    courier: "Shiprocket",
-    awb: "SR123456",
-    tracking: "https://track.shiprocket.com/SR123456",
-    items: [
-      {
-        image: "https://via.placeholder.com/80",
-        name: "Traditional Herbal Hair Oil",
-        sku: "HAIR-001",
-        qty: 1,
-        price: 1499,
-        total: 1499
-      }
-    ]
-  },
-
-  {
-    id: "ORD102",
-    name: "Amit Kumar",
-    phone: "9123456789",
-    email: "amit@example.com",
-    address: "Mumbai, India",
-    amount: 1999,
-    discount: "₹200 (10%)",
-    couponApplied: true,
-    couponCode: "CARE10",
-    payment: "COD",
-    date: "2026-01-12",
-    status: "Shipped",
-    courier: "Delhivery",
-    awb: "DLH987654",
-    tracking: "https://track.delhivery.com/DLH987654",
-    items: [
-      {
-        image: "https://via.placeholder.com/80",
-        name: "Ayurvedic Skin Cream",
-        sku: "SKIN-002",
-        qty: 1,
-        price: 1999,
-        total: 1999
-      }
-    ]
-  },
-
-  {
-    id: "ORD103",
-    name: "Neha Patel",
-    phone: "9876512345",
-    email: "neha@example.com",
-    address: "Ahmedabad, India",
-    amount: 2499,
-    discount: "₹150 (6%)",
-    couponApplied: false,
-    couponCode: null,
-    payment: "Razorpay",
-    date: "2026-01-14",
-    status: "Packed",
-    courier: "Bluedart",
-    awb: "BD123789",
-    tracking: "https://track.bluedart.com/BD123789",
-    items: [
-      {
-        image: "https://via.placeholder.com/80",
-        name: "Traditional Neem Face Wash",
-        sku: "FACE-003",
-        qty: 1,
-        price: 2499,
-        total: 2499
-      }
-    ]
-  }
+// --- DUMMY PRODUCTS DATABASE ---
+const PRODUCTS_DB = [
+  { id: 1, name: "Herbal Amla Oil", sku: "HO-001", oldPrice: 499, newPrice: 349, stock: 50 },
+  { id: 2, name: "Ayurvedic Face Cream", sku: "FC-022", oldPrice: 899, newPrice: 699, stock: 30 },
+  { id: 3, name: "Sandalwood Soap", sku: "SO-101", oldPrice: 150, newPrice: 99, stock: 100 },
+  { id: 4, name: "Kumkumadi Tailam", sku: "KT-500", oldPrice: 1200, newPrice: 999, stock: 15 },
 ];
 
-export default function AdminOrders() {
-  const [orders, setOrders] = useState(dummyOrders);
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [selectedOrders, setSelectedOrders] = useState([]);
-  const [bulkStatus, setBulkStatus] = useState("Pending");
+export default function AdminOrder() {
+  
+  // --- STATES ---
+  
+  // 1. Customer Details
+  const [customer, setCustomer] = useState({
+    name: "", phone: "", email: "", address: "", pincode: "", city: ""
+  });
 
-  const [showFromCal, setShowFromCal] = useState(false);
-  const [showToCal, setShowToCal] = useState(false);
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  // 2. Order Items
+  const [items, setItems] = useState([]);
 
-  const toggleSelectAll = (checked) => {
-    setSelectedOrders(checked ? orders.map(o => o.id) : []);
+  // 3. Payment & Status
+  const [payment, setPayment] = useState({ method: "COD", status: "Pending", txnId: "" });
+  const [orderStatus, setOrderStatus] = useState("Pending Payment");
+  const [orderDate, setOrderDate] = useState(new Date().toISOString().split('T')[0]);
+
+  // --- HANDLERS ---
+
+  // Handle Customer Inputs
+  const handleCustomerChange = (e) => {
+    setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
 
-  const toggleSingleSelect = (orderId, checked) => {
-    setSelectedOrders(prev =>
-      checked ? [...prev, orderId] : prev.filter(id => id !== orderId)
-    );
+  // Add Empty Row
+  const addRow = () => {
+    setItems([...items, { id: Date.now(), productId: "", name: "", sku: "", oldPrice: 0, newPrice: 0, qty: 1, total: 0 }]);
   };
 
-  const changeSingleStatus = (orderId, newStatus) => {
-    setOrders(prev =>
-      prev.map(o =>
-        o.id === orderId ? { ...o, status: newStatus } : o
-      )
-    );
+  // Update Item Logic (The Magic Happens Here)
+  const updateRow = (id, field, value) => {
+    setItems(prev => prev.map(item => {
+      if (item.id === id) {
+        let updates = { [field]: value };
+
+        // IF PRODUCT SELECTED -> Auto-fill Prices
+        if (field === "productId") {
+          const prod = PRODUCTS_DB.find(p => p.id === Number(value));
+          if (prod) {
+            updates = { 
+              productId: prod.id, 
+              name: prod.name, 
+              sku: prod.sku, 
+              oldPrice: prod.oldPrice, 
+              newPrice: prod.newPrice,
+              total: prod.newPrice * item.qty 
+            };
+          }
+        }
+
+        // IF QTY CHANGED -> Update Total
+        if (field === "qty") {
+          updates.total = item.newPrice * Number(value);
+        }
+
+        return { ...item, ...updates };
+      }
+      return item;
+    }));
   };
 
-  const applyBulkStatus = () => {
-    setOrders(prev =>
-      prev.map(o =>
-        selectedOrders.includes(o.id)
-          ? { ...o, status: bulkStatus }
-          : o
-      )
-    );
-    alert("Bulk status updated successfully!");
-  };
+  // Remove Item
+  const removeRow = (id) => setItems(prev => prev.filter(i => i.id !== id));
 
-  const downloadSingleInvoice = (order) => {
-    alert(`Downloading invoice for ${order.id}`);
-  };
+  // Totals Calculation
+  const subtotal = items.reduce((acc, item) => acc + item.total, 0);
+  const totalSavings = items.reduce((acc, item) => acc + ((item.oldPrice - item.newPrice) * item.qty), 0);
+  const grandTotal = subtotal; // Tax can be added here if needed
 
-  const downloadBulkInvoices = () => {
-    alert(`Downloading invoices for ${selectedOrders.length} orders`);
+  // Save Order
+  const handleSave = () => {
+    if(!customer.name || !customer.phone) return alert("Customer Name & Phone are required!");
+    if(items.length === 0) return alert("Add at least one product!");
+
+    const finalOrder = {
+      customer,
+      items,
+      payment,
+      orderStatus,
+      date: orderDate,
+      financials: { subtotal, totalSavings, grandTotal }
+    };
+
+    console.log("Saving Order:", finalOrder);
+    alert("Order Created Successfully!");
   };
 
   return (
-    <div className="orders-container">
-
-      <h1 className="orders-title">Admin Orders</h1>
-
-      {/* BULK BAR */}
-      <div className="bulk-bar">
-        <input
-          type="checkbox"
-          onChange={(e) => toggleSelectAll(e.target.checked)}
-        />
-        <span>Select All</span>
-
-        <select value={bulkStatus} onChange={(e) => setBulkStatus(e.target.value)}>
-          <option>Pending</option>
-          <option>Processing</option>
-          <option>Packed</option>
-          <option>Shipped</option>
-          <option>Delivered</option>
-          <option>Cancelled</option>
-        </select>
-
-        <button className="bulk-btn" onClick={applyBulkStatus}>
-          Change Status in Bulk
-        </button>
-
-        <button className="invoice-btn" onClick={downloadBulkInvoices}>
-          Download Invoices
-        </button>
+    <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans text-gray-800">
+      
+      {/* HEADER */}
+      <div className="flex justify-between items-center mb-6">
+         <div>
+            <h1 className="text-2xl font-bold text-gray-900">Create New Order</h1>
+            <p className="text-xs text-gray-500">Manual order entry for phone/whatsapp orders.</p>
+         </div>
+         <button onClick={handleSave} className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-bold text-sm shadow-lg hover:bg-blue-700 flex items-center gap-2 transition">
+            <FaSave/> Save Order
+         </button>
       </div>
 
-      {/* FILTERS (SAME LOOK + BACKSPACE ENABLED) */}
-      <div className="filters-box">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+         
+         {/* ================= LEFT COLUMN: PRODUCTS & BILLING ================= */}
+         <div className="lg:col-span-2 space-y-6">
+            
+            {/* 1. PRODUCT ENTRY */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+               <div className="p-4 border-b bg-gray-50 flex justify-between items-center">
+                  <h3 className="font-bold text-gray-700 text-sm flex items-center gap-2"><FaBoxOpen/> Order Items</h3>
+                  <button onClick={addRow} className="text-blue-600 text-xs font-bold hover:underline">+ Add Product</button>
+               </div>
+               
+               <div className="p-4">
+                  <table className="w-full text-left text-sm">
+                     <thead className="text-gray-500 uppercase text-[10px] font-bold border-b">
+                        <tr>
+                           <th className="py-2 w-5/12">Product Name</th>
+                           <th className="py-2 w-2/12">Unit Price</th>
+                           <th className="py-2 w-2/12">Qty</th>
+                           <th className="py-2 w-2/12 text-right">Total</th>
+                           <th className="py-2 w-1/12 text-center"></th>
+                        </tr>
+                     </thead>
+                     <tbody className="divide-y divide-gray-100">
+                        {items.map((item) => (
+                           <tr key={item.id}>
+                              <td className="py-3 pr-2">
+                                 <select 
+                                   className="w-full border rounded-lg p-2 text-sm bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none"
+                                   value={item.productId}
+                                   onChange={(e) => updateRow(item.id, "productId", e.target.value)}
+                                 >
+                                    <option value="">Select Product...</option>
+                                    {PRODUCTS_DB.map(p => (
+                                       <option key={p.id} value={p.id}>{p.name} (SKU: {p.sku})</option>
+                                    ))}
+                                 </select>
+                                 {item.sku && <p className="text-[10px] text-gray-400 mt-1 pl-1">SKU: {item.sku}</p>}
+                              </td>
+                              
+                              <td className="py-3">
+                                 <div className="flex flex-col">
+                                    {/* PRICE LOGIC: Old Price Cut, New Price Bold */}
+                                    {item.newPrice > 0 ? (
+                                       <>
+                                          <span className="font-bold text-gray-800">₹{item.newPrice}</span>
+                                          {item.oldPrice > item.newPrice && (
+                                             <span className="text-[10px] text-gray-400 line-through">₹{item.oldPrice}</span>
+                                          )}
+                                       </>
+                                    ) : (
+                                       <span className="text-gray-400">-</span>
+                                    )}
+                                 </div>
+                              </td>
 
-        {/* FROM DATE */}
-        <div className="date-wrapper">
-          <input
-            type="text"
-            placeholder="DD-MM-YYYY"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-            onClick={() => setShowFromCal(!showFromCal)}
-          />
-          <span className="calendar-icon" onClick={() => setShowFromCal(!showFromCal)}>
-            📅
-          </span>
+                              <td className="py-3">
+                                 <input 
+                                   type="number" min="1" 
+                                   className="w-16 border rounded-lg p-1.5 text-center text-sm"
+                                   value={item.qty}
+                                   onChange={(e) => updateRow(item.id, "qty", Number(e.target.value))}
+                                 />
+                              </td>
 
-          {showFromCal && (
-            <div className="calendar-popup">
-              <Calendar
-                onChange={(date) => {
-                  setFromDate(date.toLocaleDateString("en-GB"));
-                  setShowFromCal(false);
-                }}
-              />
+                              <td className="py-3 text-right font-bold text-blue-600">
+                                 ₹{item.total}
+                              </td>
+
+                              <td className="py-3 text-center">
+                                 <button onClick={()=>removeRow(item.id)} className="text-red-400 hover:text-red-600 p-1"><FaTrash/></button>
+                              </td>
+                           </tr>
+                        ))}
+                     </tbody>
+                  </table>
+                  
+                  {items.length === 0 && (
+                     <div className="text-center p-6 text-gray-400 border-2 border-dashed border-gray-200 rounded-lg mt-2">
+                        No items added. Click "+ Add Product" to start.
+                     </div>
+                  )}
+               </div>
             </div>
-          )}
-        </div>
 
-        {/* TO DATE */}
-        <div className="date-wrapper">
-          <input
-            type="text"
-            placeholder="DD-MM-YYYY"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-            onClick={() => setShowToCal(!showToCal)}
-          />
-          <span className="calendar-icon" onClick={() => setShowToCal(!showToCal)}>
-            📅
-          </span>
-
-          {showToCal && (
-            <div className="calendar-popup">
-              <Calendar
-                onChange={(date) => {
-                  setToDate(date.toLocaleDateString("en-GB"));
-                  setShowToCal(false);
-                }}
-              />
+            {/* 2. TOTALS & CALCULATIONS */}
+            <div className="flex justify-end">
+               <div className="w-full md:w-1/2 bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                  <div className="space-y-2 text-sm">
+                     <div className="flex justify-between text-gray-600">
+                        <span>Items Total</span>
+                        <span>₹{subtotal}</span>
+                     </div>
+                     <div className="flex justify-between text-green-600">
+                        <span>Total Savings (Festival Offer)</span>
+                        <span>- ₹{totalSavings}</span>
+                     </div>
+                     <div className="border-t pt-3 mt-3 flex justify-between text-lg font-bold text-gray-900">
+                        <span>Grand Total to Pay</span>
+                        <span>₹{grandTotal}</span>
+                     </div>
+                  </div>
+               </div>
             </div>
-          )}
-        </div>
 
-        <select className="filter-select">
-          <option>All</option>
-          <option>Pending</option>
-          <option>Processing</option>
-          <option>Shipped</option>
-        </select>
+         </div>
 
-        <input className="search-input" placeholder="Search order..." />
+         {/* ================= RIGHT COLUMN: CUSTOMER & PAYMENT ================= */}
+         <div className="lg:col-span-1 space-y-6">
+            
+            {/* 1. CUSTOMER DETAILS */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+               <h3 className="font-bold text-gray-800 text-sm mb-4 flex items-center gap-2"><FaUser className="text-blue-500"/> Customer Details</h3>
+               <div className="space-y-3">
+                  <input name="name" onChange={handleCustomerChange} className="w-full border rounded-lg p-2 text-sm" placeholder="Full Name *" />
+                  <input name="phone" onChange={handleCustomerChange} className="w-full border rounded-lg p-2 text-sm" placeholder="Phone Number *" />
+                  <input name="email" onChange={handleCustomerChange} className="w-full border rounded-lg p-2 text-sm" placeholder="Email Address (Optional)" />
+                  
+                  <div className="border-t pt-3">
+                     <label className="text-[10px] font-bold text-gray-500 uppercase mb-1 block">Shipping Address</label>
+                     <textarea name="address" onChange={handleCustomerChange} className="w-full border rounded-lg p-2 text-sm" rows="2" placeholder="Street Address, Area..."></textarea>
+                     <div className="grid grid-cols-2 gap-2 mt-2">
+                        <input name="pincode" onChange={handleCustomerChange} className="w-full border rounded-lg p-2 text-sm" placeholder="Pincode" />
+                        <input name="city" onChange={handleCustomerChange} className="w-full border rounded-lg p-2 text-sm" placeholder="City" />
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* 2. PAYMENT DETAILS */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+               <h3 className="font-bold text-gray-800 text-sm mb-4 flex items-center gap-2"><FaMoneyBillWave className="text-green-500"/> Payment Info</h3>
+               
+               {/* Payment Method Selector */}
+               <div className="grid grid-cols-2 gap-2 mb-4">
+                  {[
+                     { id: "COD", label: "COD", icon: <FaMoneyBillWave/> },
+                     { id: "UPI", label: "UPI / GPay", icon: <FaGooglePay/> },
+                     { id: "Card", label: "Card", icon: <FaCreditCard/> },
+                     { id: "NetBanking", label: "Net Bank", icon: <FaUniversity/> }
+                  ].map(m => (
+                     <button 
+                       key={m.id}
+                       onClick={() => setPayment({ ...payment, method: m.id })}
+                       className={`flex flex-col items-center justify-center p-3 rounded-lg border text-xs font-bold transition
+                         ${payment.method === m.id ? "bg-blue-50 border-blue-500 text-blue-700" : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                     >
+                        <span className="text-lg mb-1">{m.icon}</span>
+                        {m.label}
+                     </button>
+                  ))}
+               </div>
+
+               {/* Transaction ID (If not COD) */}
+               {payment.method !== "COD" && (
+                  <div className="mb-4 animate-fadeIn">
+                     <label className="text-[10px] font-bold text-gray-500 uppercase">Transaction ID</label>
+                     <input 
+                        className="w-full border rounded-lg p-2 text-sm bg-gray-50" 
+                        placeholder="e.g. UPI-123456789"
+                        onChange={(e) => setPayment({...payment, txnId: e.target.value})}
+                     />
+                  </div>
+               )}
+
+               <div className="grid grid-cols-2 gap-3">
+                  <div>
+                     <label className="text-[10px] font-bold text-gray-500 uppercase">Order Date</label>
+                     <input type="date" value={orderDate} onChange={(e)=>setOrderDate(e.target.value)} className="w-full border rounded-lg p-2 text-sm" />
+                  </div>
+                  <div>
+                     <label className="text-[10px] font-bold text-gray-500 uppercase">Order Status</label>
+                     <select value={orderStatus} onChange={(e)=>setOrderStatus(e.target.value)} className="w-full border rounded-lg p-2 text-sm bg-white">
+                        <option>Pending Payment</option><option>Processing</option><option>Completed</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+
+         </div>
 
       </div>
-
-      {/* ORDERS TABLE */}
-      <div className="table-wrapper">
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Sr No</th>
-              <th>Product</th>
-              <th>Order ID</th>
-              <th>SKU</th>
-              <th>Customer</th>
-              <th>Phone</th>
-              <th>Amount</th>
-              <th>Discount</th>
-              <th>Coupon</th>
-              <th>Code</th>
-              <th>Payment</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {orders.map((o, index) => (
-              <tr key={o.id}>
-
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedOrders.includes(o.id)}
-                    onChange={(e) =>
-                      toggleSingleSelect(o.id, e.target.checked)
-                    }
-                  />
-                </td>
-
-                <td>{index + 1}</td>
-
-                <td>
-                  <img src={o.items[0].image} className="order-thumb" />
-                </td>
-
-                <td>{o.id}</td>
-                <td>{o.items[0].sku}</td>
-                <td>{o.name}</td>
-                <td>{o.phone}</td>
-                <td>₹{o.amount}</td>
-
-                <td>{o.discount || "-"}</td>
-                <td>{o.couponApplied ? "Yes" : "No"}</td>
-                <td>{o.couponCode || "-"}</td>
-
-                <td>{o.payment}</td>
-                <td>{o.date}</td>
-
-                <td>
-                  <span className={`status ${o.status.toLowerCase()}`}>
-                    {o.status}
-                  </span>
-                </td>
-
-                <td className="actions">
-                  <button className="view-btn" onClick={() => setSelectedOrder(o)}>
-                    View
-                  </button>
-
-                  <button
-                    className="invoice-btn"
-                    onClick={() => downloadSingleInvoice(o)}
-                  >
-                    Invoice
-                  </button>
-
-                  <select
-                    className="status-select"
-                    value={o.status}
-                    onChange={(e) => changeSingleStatus(o.id, e.target.value)}
-                  >
-                    <option>Pending</option>
-                    <option>Processing</option>
-                    <option>Packed</option>
-                    <option>Shipped</option>
-                    <option>Delivered</option>
-                    <option>Cancelled</option>
-                  </select>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* ORDER DETAILS MODAL */}
-      {selectedOrder && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <h2>Order Details - {selectedOrder.id}</h2>
-
-            <p><b>Name:</b> {selectedOrder.name}</p>
-            <p><b>Phone:</b> {selectedOrder.phone}</p>
-            <p><b>Amount:</b> ₹{selectedOrder.amount}</p>
-            <p><b>Coupon:</b> {selectedOrder.couponApplied ? "Yes" : "No"}</p>
-
-            {selectedOrder.discount && (
-              <p><b>Discount:</b> {selectedOrder.discount}</p>
-            )}
-
-            <button className="invoice-btn">
-              Download Invoice
-            </button>
-
-            <button className="close-btn" onClick={() => setSelectedOrder(null)}>
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
     </div>
   );
 }
