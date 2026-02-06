@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost/tcteam/backend';
+const API_URL = '';
 const clientId = "";
 const clientsercet= "";
 export { API_URL, clientId, clientsercet };
