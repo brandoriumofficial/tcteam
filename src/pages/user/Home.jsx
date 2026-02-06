@@ -5,12 +5,10 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import 'react-before-after-slider-component/dist/build.css';
 import { FaQuoteLeft } from "react-icons/fa";
 
-// Components
-import ProductTabs from '../../components/Homeuser/Product/ProductTabs'; 
+import CategoryDetailSection  from '../../components/Homeuser/Product/ProductTabs'; 
 import TraditionalCareAbout from "./TraditionalCareAbout";
 import HeroSlider from "../../components/Homeuser/Slider/HeroSlider";
 
-// --- FEEDBACK DATA ---
 const feedbacks = [
   {
     before: { imageUrl: 'https://www.shutterstock.com/image-photo/concept-skin-care-before-after-600nw-1925246477.jpg' },
@@ -39,7 +37,7 @@ export default function Home({ onAddToCart }) {
 
       {/* 2. PRODUCT TABS (Reduced Padding) */}
       <section className="py-4 md:py-8">
-        <ProductTabs onAddToCart={onAddToCart} />
+        <CategoryDetailSection onAddToCart={onAddToCart} />
       </section>
 
       {/* 3. CLIENT FEEDBACK (Reduced Padding) */}

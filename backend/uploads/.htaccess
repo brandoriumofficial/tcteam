@@ -1,0 +1,11 @@
+# Deny access to PHP files in uploads directory
+<FilesMatch "\.(php|php5|phtml)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow image and video files
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|mp4|avi|mov|wmv)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>

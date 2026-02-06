@@ -38,10 +38,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         {/* --- BRAND HEADER --- */}
         <div className="flex items-center justify-between h-16 px-6 border-b border-gray-100 bg-white">
           <div className="flex items-center gap-2 text-blue-600">
-            <div className="bg-blue-50 p-2 rounded-lg">
+            <div className="bg-green-50 p-2 rounded-lg">
                <FaBoxOpen className="text-xl" />
             </div>
-            <span className="text-lg font-bold tracking-wide text-gray-800">NEXUS<span className="text-blue-600">ADMIN</span></span>
+            <span className="text-lg font-bold tracking-wide text-gray-800">Traditional<span className="text-green-600">care</span></span>
           </div>
           {/* Close Button (Mobile Only) */}
           <button className="md:hidden text-gray-400 hover:text-red-500 text-xl transition" onClick={() => setIsOpen(false)}>
@@ -127,7 +127,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             <MdInventory className="text-lg" /> <span>Page Builder</span>
           </Link>
 
-          <Link to="/admin/conact" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/conact") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+          <Link to="/admin/contact" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/conact") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
             <MdInventory className="text-lg" /> <span>conact</span>
           </Link>
             <Link to="/admin/orders" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/orders") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
@@ -139,7 +139,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           <Link to="/admin/inventory" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/inventory") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
             <MdInventory className="text-lg" /> <span>Inventory Stock</span>
           </Link>
-             <Link to="/admin/brand" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/brand") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+             <Link to="/admin/brandmanagement" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/brand") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
             <MdInventory className="text-lg" /> <span>Brand</span>
           </Link>
 
@@ -151,9 +151,9 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             <MdPayments className="text-lg" /> <span>Payments & COD</span>
           </Link>
           
-          <Link to="/admin/seo" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/seo") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
+          {/* <Link to="/admin/seo" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/seo") ? "bg-orange-50 text-orange-700" : "text-gray-600 hover:bg-gray-50"}`}>
             <MdInventory className="text-lg" /> <span>seo</span>
-          </Link>
+          </Link> */}
 
 
           <Link to="/admin/review" onClick={handleLinkClick} className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all font-medium text-sm ${isActive("/admin/review") ? "bg-indigo-50 text-indigo-700" : "text-gray-600 hover:bg-gray-50"}`}>

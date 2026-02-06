@@ -29,7 +29,6 @@ export default function AdminLayout() {
 
         {/* --- MAIN PAGE CONTENT --- */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 scroll-smooth">
-          {/* Outlet renders the child routes (Dashboard, Products, etc.) */}
           <Outlet />
         </main>
 

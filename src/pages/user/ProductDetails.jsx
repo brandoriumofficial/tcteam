@@ -89,7 +89,6 @@ export default function ProductDetails({ onAddToCart }) {
   const handleStarChange = (star) => {
     setFeedbackForm({ ...feedbackForm, stars: star });
   };
-  if (!product) return <p className="text-center text-gray-500">Loading...</p>;
 
   const similarProducts = allProducts.filter((p) => p.id !== product.id);
 

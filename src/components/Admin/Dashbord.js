@@ -167,7 +167,7 @@ export default function Dashboard() {
       )}
 
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      {/* <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} /> */}
 
       {/* Main Area */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
